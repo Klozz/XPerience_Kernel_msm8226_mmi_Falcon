@@ -32,6 +32,10 @@
 #include "mdss_dsi.h"
 #include "dsi_v2.h"
 
+#ifdef CONFIG_POWERSUSPEND
+#include <linux/powersuspend.h>
+#endif
+
 #define DT_CMD_HDR 6
 #define ESD_DROPBOX_MSG "ESD event detected"
 #define ESD_TE_DROPBOX_MSG "ESD TE event detected"
@@ -266,6 +270,9 @@ static int mdss_dsi_panel_partial_update(struct mdss_panel_data *pdata)
 		return -EINVAL;
 	}
 
+#ifdef CONFIG_POWERSUSPEND
+	set_power_suspend_state_panel_hook(POWER_SUSPEND_INACTIVE);
+#endif
 	ctrl = container_of(pdata, struct mdss_dsi_ctrl_pdata,
 				panel_data);
 	mipi  = &pdata->panel_info.mipi;
@@ -683,6 +690,9 @@ disable_regs:
 #endif
 #ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
         dt2w_scr_suspended = true;
+#endif
+#ifdef CONFIG_POWERSUSPEND
+	set_power_suspend_state_panel_hook(POWER_SUSPEND_ACTIVE);
 #endif
 
 	return 0;
