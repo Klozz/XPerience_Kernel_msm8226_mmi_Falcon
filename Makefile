@@ -383,17 +383,18 @@ KBUILD_CPPFLAGS := -D__KERNEL__
 
 KBUILD_CFLAGS := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		 -fno-strict-aliasing -fno-common \
- 		 -Wno-format-security -Wno-uninitialized\
- 		 -Wno-unused-variable -Wno-error\
- 		 -Wno-sequence-point \
- 		 -mfpu=neon-vfpv4 -fgcse-after-reload -fgcse-las \
- 		 -mvectorize-with-neon-quad \
- 		 -fno-delete-null-pointer-checks \
- 		 -march=armv7-a -mtune=cortex-a7 \
- 		 -ffast-math -fsingle-precision-constant \
- 		 -ftree-loop-im -ftree-loop-ivcanon \
- 		 -fivopts -ftree-vectorize \
- 		 -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr
+		 -Wno-format-security -Wno-uninitialized\
+		 -Wno-unused-variable -Wno-error \
+		 -Wno-sequence-point -Wno-implicit\
+		 -Wno-unused-function \
+		 -mfpu=neon-vfpv4 -fgcse-after-reload -fgcse-las \
+		 -mvectorize-with-neon-quad \
+		 -fno-delete-null-pointer-checks \
+		 -march=armv7-a -mtune=cortex-a7 \
+		 -ffast-math -fsingle-precision-constant \
+		 -ftree-loop-im -ftree-loop-ivcanon \
+		 -fivopts -ftree-vectorize \
+		 -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
