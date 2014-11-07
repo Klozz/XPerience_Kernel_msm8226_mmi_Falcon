@@ -264,39 +264,39 @@ static unsigned int msm_cpufreq_get_freq(unsigned int cpu)
 	return acpuclk_get_rate(cpu);
 }
 
-+static inline int msm_cpufreq_limits_init(void)
-+{
-+	int cpu = 0;
-+	int i = 0;
-+	struct cpufreq_frequency_table *table = NULL;
-+	uint32_t min = (uint32_t) -1;
-+	uint32_t max = 0;
-+	struct cpu_freq *limit = NULL;
-+
-+	for_each_possible_cpu(cpu) {
-+		limit = &per_cpu(cpu_freq_info, cpu);
-+		table = cpufreq_frequency_get_table(cpu);
-+		if (table == NULL) {
-+			pr_err("%s: error reading cpufreq table for cpu %d\n",
-+					__func__, cpu);
-+			continue;
-+		}
-+		for (i = 0; (table[i].frequency != CPUFREQ_TABLE_END); i++) {
-+			if (table[i].frequency > max)
-+				max = table[i].frequency;
-+			if (table[i].frequency < min)
-+				min = table[i].frequency;
-+		}
-+		limit->allowed_min = min;
-+		limit->allowed_max = max;
-+		limit->min = min;
-+		limit->max = max;
-+		limit->limits_init = 1;
-+	}
-+
-+	return 0;
-+}
-+
+static inline int msm_cpufreq_limits_init(void)
+{
+	int cpu = 0;
+	int i = 0;
+	struct cpufreq_frequency_table *table = NULL;
+	uint32_t min = (uint32_t) -1;
+	uint32_t max = 0;
+	struct cpu_freq *limit = NULL;
+
+	for_each_possible_cpu(cpu) {
+		limit = &per_cpu(cpu_freq_info, cpu);
+		table = cpufreq_frequency_get_table(cpu);
+		if (table == NULL) {
+			pr_err("%s: error reading cpufreq table for cpu %d\n",
+					__func__, cpu);
+			continue;
+		}
+		for (i = 0; (table[i].frequency != CPUFREQ_TABLE_END); i++) {
+			if (table[i].frequency > max)
+				max = table[i].frequency;
+			if (table[i].frequency < min)
+				min = table[i].frequency;
+		}
+		limit->allowed_min = min;
+		limit->allowed_max = max;
+		limit->min = min;
+		limit->max = max;
+		limit->limits_init = 1;
+	}
+
+	return 0;
+}
+
 int msm_cpufreq_set_freq_limits(uint32_t cpu, uint32_t min, uint32_t max)
 {
 		struct cpu_freq *limit = &per_cpu(cpu_freq_info, cpu);
