@@ -42,6 +42,8 @@
 #include <asm/div64.h>
 #endif
 
+#include <mach/cpufreq.h>
+
 static DEFINE_MUTEX(l2bw_lock);
 
 static struct clk *cpu_clk[NR_CPUS];
