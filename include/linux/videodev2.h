@@ -709,6 +709,7 @@ struct v4l2_buffer {
 #define V4L2_QCOM_BUF_FLAG_EOS          0x2000
 #define V4L2_QCOM_BUF_FLAG_READONLY     0x400000
 #define V4L2_MSM_BUF_FLAG_MBAFF         0x800000
+
 /* Vendor extensions */
 #define V4L2_MSM_BUF_FLAG_YUV_601_709_CLAMP     0x1000000
 
@@ -1977,6 +1978,9 @@ enum v4l2_mpeg_vidc_video_mvc_layout {
 
 #define V4L2_CID_MPEG_VIDC_VIDEO_REQUEST_SEQ_HEADER \
  	        (V4L2_CID_MPEG_MSM_VIDC_BASE + 55)
+ 	        
+#define V4L2_CID_MPEG_VIDC_VIDEO_BUFFER_SIZE_LIMIT \
+		(V4L2_CID_MPEG_MSM_VIDC_BASE + 48)
 
 /*  Camera class control IDs */
 #define V4L2_CID_CAMERA_CLASS_BASE 	(V4L2_CTRL_CLASS_CAMERA | 0x900)
