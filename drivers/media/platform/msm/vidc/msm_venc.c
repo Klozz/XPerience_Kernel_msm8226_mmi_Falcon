@@ -692,9 +692,9 @@ static struct msm_vidc_ctrl msm_venc_ctrls[] = {
 			(1 << V4L2_MPEG_VIDC_EXTRADATA_MULTISLICE_INFO) |
 			(1 << V4L2_MPEG_VIDC_EXTRADATA_NUM_CONCEALED_MB) |
 			(1 << V4L2_MPEG_VIDC_EXTRADATA_METADATA_FILLER) |
-			(1 << V4L2_MPEG_VIDC_INDEX_EXTRADATA_INPUT_CROP) |
-			(1 << V4L2_MPEG_VIDC_INDEX_EXTRADATA_DIGITAL_ZOOM) |
-			(1 << V4L2_MPEG_VIDC_INDEX_EXTRADATA_ASPECT_RATIO) |
+			(1 << V4L2_MPEG_VIDC_EXTRADATA_INPUT_CROP) |
+			(1 << V4L2_MPEG_VIDC_EXTRADATA_DIGITAL_ZOOM) |
+			(1 << V4L2_MPEG_VIDC_EXTRADATA_ASPECT_RATIO) |
 			(1 << V4L2_MPEG_VIDC_EXTRADATA_LTR) |
 			(1 << V4L2_MPEG_VIDC_EXTRADATA_METADATA_MBI)
 			),
@@ -818,7 +818,6 @@ static struct msm_vidc_ctrl msm_venc_ctrls[] = {
 		.maximum = 0,
 		.default_value = 0,
 		.step = 0,
-		.cluster = 0,
 	},
 	{
 		.id = V4L2_CID_MPEG_VIDC_VIDEO_I_FRAME_QP,
@@ -3119,6 +3118,10 @@ int msm_venc_ctrl_deinit(struct msm_vidc_inst *inst)
 {
 	struct msm_vidc_ctrl_cluster *curr, *next;
 	list_for_each_entry_safe(curr, next, &inst->ctrl_clusters, list) {
+	   if (!inst) {
+		dprintk(VIDC_ERR, "%s invalid parameters\n", __func__);
+		return -EINVAL;
+	      }
 		kfree(curr->cluster);
 		kfree(curr);
 	}
