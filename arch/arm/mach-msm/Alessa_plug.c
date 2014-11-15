@@ -76,7 +76,7 @@ static struct hotplug_tuners {
 	unsigned int hotplug_suspend;
 	bool suspended;
 	bool force_cpu_up;
-	struct mutex alu_hotplug_mutex;
+	struct mutex alessa_hotplug_mutex;
 #endif
 } hotplug_tuners_ins = {
 	.hotplug_sampling_rate = 30,
@@ -352,9 +352,9 @@ static void __ref alessa_hotplug_early_suspend(struct early_suspend *handler)
 {
 	if (hotplug_tuners_ins.hotplug_enable > 0
 		&& hotplug_tuners_ins.hotplug_suspend == 1) { 
-			mutex_lock(&hotplug_tuners_ins.alu_hotplug_mutex);
+			mutex_lock(&hotplug_tuners_ins.alessa_hotplug_mutex);
 			hotplug_tuners_ins.suspended = true;
-			mutex_unlock(&hotplug_tuners_ins.alu_hotplug_mutex);
+			mutex_unlock(&hotplug_tuners_ins.alessa_hotplug_mutex);
 	}
 }
 
@@ -367,11 +367,11 @@ static void __ref alessa_hotplug_late_resume(
 {
 	if (hotplug_tuners_ins.hotplug_enable > 0
 		&& hotplug_tuners_ins.hotplug_suspend == 1) {
-			mutex_lock(&hotplug_tuners_ins.alu_hotplug_mutex);
+			mutex_lock(&hotplug_tuners_ins.alessa_hotplug_mutex);
 			hotplug_tuners_ins.suspended = false;
 			// wake up everyone
 			hotplug_tuners_ins.force_cpu_up = true;
-			mutex_unlock(&hotplug_tuners_ins.alu_hotplug_mutex);
+			mutex_unlock(&hotplug_tuners_ins.alessa_hotplug_mutex);
 	}
 }
 
@@ -433,7 +433,7 @@ static int hotplug_start(void)
 
 #if defined(CONFIG_POWERSUSPEND) || \
 	defined(CONFIG_HAS_EARLYSUSPEND)
-	mutex_init(&hotplug_tuners_ins.alu_hotplug_mutex);
+	mutex_init(&hotplug_tuners_ins.alessa_hotplug_mutex);
 #endif
 
 #if defined(CONFIG_POWERSUSPEND)
@@ -449,7 +449,7 @@ static void hotplug_stop(void)
 {
 #if defined(CONFIG_POWERSUSPEND) || \
 	defined(CONFIG_HAS_EARLYSUSPEND)
-	mutex_destroy(&hotplug_tuners_ins.alu_hotplug_mutex);
+	mutex_destroy(&hotplug_tuners_ins.alessa_hotplug_mutex);
 #endif
 
 #if defined(CONFIG_POWERSUSPEND)
