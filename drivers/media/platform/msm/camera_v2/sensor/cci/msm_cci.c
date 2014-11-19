@@ -226,7 +226,7 @@ static int32_t msm_cci_data_queue(struct cci_device *cci_dev,
 			data[i++] = reg_addr & 0x00FF;
 		}
 		/* max of 10 data bytes */
-		+		if (i2c_msg->data_type == MSM_CAMERA_I2C_BYTE_DATA) {
+		if (i2c_msg->data_type == MSM_CAMERA_I2C_BYTE_DATA) {
 			data[i++] = i2c_cmd->reg_data;
 			reg_addr++;
 		} else {
