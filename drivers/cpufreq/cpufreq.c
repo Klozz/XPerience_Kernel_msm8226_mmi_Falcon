@@ -367,8 +367,6 @@ static int cpufreq_parse_governor(char *str_governor, unsigned int *policy,
 	} else if (cpufreq_driver->target) {
 		struct cpufreq_governor *t;
 
-		mutex_lock(&cpufreq_governor_mutex);
-
 		t = __find_governor(str_governor);
 
 		if (t == NULL) {
@@ -387,7 +385,6 @@ static int cpufreq_parse_governor(char *str_governor, unsigned int *policy,
 			err = 0;
 		}
 
-		mutex_unlock(&cpufreq_governor_mutex);
 	}
 out:
 	return err;
@@ -487,7 +484,7 @@ static ssize_t show_scaling_governor(struct cpufreq_policy *policy, char *buf)
 /**
  * store_scaling_governor - store policy for the specified CPU
  */
-static ssize_t store_scaling_governor(struct cpufreq_policy *policy,
+static ssize_t _store_scaling_governor(struct cpufreq_policy *policy,
 					const char *buf, size_t count)
 {
 	unsigned int ret;
@@ -519,6 +516,16 @@ static ssize_t store_scaling_governor(struct cpufreq_policy *policy,
 		return ret;
 	else
 		return count;
+}
+
+static ssize_t store_scaling_governor(struct cpufreq_policy *policy,
+                                        const char *buf, size_t count)
+{
+        ssize_t ret;
+	mutex_lock(&cpufreq_governor_mutex);
+        ret = _store_scaling_governor(policy, buf, count);
+	mutex_unlock(&cpufreq_governor_mutex);
+        return ret;
 }
 
 /**
